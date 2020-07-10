@@ -1,0 +1,9 @@
+# Project exclude paths
+/.gradle/
+/Problems/Pretty looking pattern/out/
+/Problems/Pretty looking pattern/out/production/classes/
+/Problems/Symmetric matrix/out/
+/Problems/Symmetric matrix/out/production/classes/
+/Tic-Tac-Toe with AI/task/build/
+/Tic-Tac-Toe with AI/task/out/
+/Tic-Tac-Toe with AI/task/out/production/classes/
