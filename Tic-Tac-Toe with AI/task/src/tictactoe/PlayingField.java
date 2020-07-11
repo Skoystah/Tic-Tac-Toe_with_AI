@@ -1,14 +1,12 @@
 package tictactoe;
 
-import java.util.Scanner;
-
 public class PlayingField {
     private final Square[][] board;
     private final int size;
 
     private int numberOfX = 0;
     private int numberOfO = 0;
-    private final char phasingPlayer;
+    private char phasingPlayer = 'X';
 
     public char getPhasingPlayer() {
         return phasingPlayer;
@@ -26,14 +24,14 @@ public class PlayingField {
         int row = 3;
         int symbol = 0;
 
-        System.out.println("Hi, want to play a game? Enter the initial setup please:");
-        Scanner ipt = new Scanner(System.in);
-        char[] initSymbols = ipt.nextLine().toCharArray();
+//        System.out.println("Hi, want to play a game? Enter the initial setup please:");
+//        Scanner ipt = new Scanner(System.in);
+//        char[] initSymbols = ipt.nextLine().toCharArray();
 
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                board[i][j] = new Square(column, row, initSymbols[symbol]);
-                countSymbol(initSymbols[symbol]);
+                board[i][j] = new Square(column, row, ' ');
+//                countSymbol(initSymbols[symbol]);
 
                 symbol++;
                 column++;
@@ -44,7 +42,6 @@ public class PlayingField {
             row--;
         }
 
-        this.phasingPlayer = determinePhasingPlayer();
     }
 
     public void printPlayingField() {
@@ -61,30 +58,30 @@ public class PlayingField {
         System.out.println("---------");
     }
 
-    public void countSymbol(char symbol) {
-        switch (symbol) {
-            case 'X':
-                this.numberOfX++;
-                break;
-            case 'O':
-                this.numberOfO++;
-                break;
-            default:
-                break;
-        }
-    }
+//    public void countSymbol(char symbol) {
+//        switch (symbol) {
+//            case 'X':
+//                this.numberOfX++;
+//                break;
+//            case 'O':
+//                this.numberOfO++;
+//                break;
+//            default:
+//                break;
+//        }
+//    }
 
-    public char determinePhasingPlayer() {
-        if (numberOfX == numberOfO) {
-            return 'X';
-        } else {
-            if (numberOfX > numberOfO) {
-                return 'O';
-            } else {
-                return ' ';
-            }
-        }
-    }
+//    public char determinePhasingPlayer() {
+//        if (numberOfX == numberOfO) {
+//            return 'X';
+//        } else {
+//            if (numberOfX > numberOfO) {
+//                return 'O';
+//            } else {
+//                return ' ';
+//            }
+//        }
+//    }
 
     public boolean isEmptySquare(int column, int row) {
         for (Square[] s : board) {
@@ -97,7 +94,7 @@ public class PlayingField {
         return false;
     }
 
-    public boolean isFull() {
+    private boolean isFullBoard() {
         for (Square[] s : board) {
             for (Square s2 : s) {
                 if (s2.getSymbol() == ' ') {
@@ -116,6 +113,15 @@ public class PlayingField {
                 }
             }
         }
+
+        switchPhasingPlayer();
+    }
+
+    private void switchPhasingPlayer() {
+        if (this.phasingPlayer == 'X')
+            this.phasingPlayer = 'O';
+        else
+            this.phasingPlayer = 'X';
     }
 
     public void printState() {
@@ -184,6 +190,10 @@ public class PlayingField {
         // If no winner, check if the game is a draw (full board) or not.
         // '=' -> draw
         // '/' -> game unfinished
-        return (isFull() ? '=' : '/');
+        return (isFullBoard() ? '=' : '/');
+    }
+
+    public boolean isFinished() {
+        return (determineState() == '/' ? false : true);
     }
 }

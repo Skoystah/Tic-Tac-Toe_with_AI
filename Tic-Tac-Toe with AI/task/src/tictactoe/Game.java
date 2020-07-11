@@ -10,8 +10,10 @@ public class Game {
         startGame();
         board.printPlayingField();
 
-        makeMove(board);
-        board.printPlayingField();
+        while (!board.isFinished()) {
+            makeMove(board);
+            board.printPlayingField();
+        }
 
         board.printState();
 
@@ -24,7 +26,11 @@ public class Game {
 
     private void makeMove(PlayingField board) {
         Move move = new Move();
-        move.enterMove(board);
+        if (board.getPhasingPlayer() == 'X') { // human player - to expand later
+            move.playerMove(board);
+        } else {
+            move.computerMove(board);
+        }
 
         board.registerMove(move);
     }

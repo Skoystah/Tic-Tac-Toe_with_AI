@@ -11,6 +11,7 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/Problems/Generate random numbers" />
             <option value="$PROJECT_DIR$/Problems/Pretty looking pattern" />
             <option value="$PROJECT_DIR$/Problems/Sum of neighbors" />
             <option value="$PROJECT_DIR$/Problems/Symmetric matrix" />

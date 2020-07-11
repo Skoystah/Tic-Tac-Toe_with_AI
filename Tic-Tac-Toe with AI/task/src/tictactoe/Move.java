@@ -1,5 +1,6 @@
 package tictactoe;
 
+import java.util.Random;
 import java.util.Scanner;
 
 public class Move {
@@ -20,11 +21,12 @@ public class Move {
         return player;
     }
 
-    public void enterMove(PlayingField board) {
+    public void playerMove(PlayingField board) {
 
         Scanner ipt = new Scanner(System.in);
         System.out.println("What's your next move sport?");
         String[] coordinates = ipt.nextLine().split(" ");
+
         while (!validateCoordinates(coordinates, board)) {
             coordinates = ipt.nextLine().split(" ");
         }
@@ -55,5 +57,18 @@ public class Move {
             return false;
         }
         return true;
+    }
+
+    public void computerMove(PlayingField board) {
+        Random rand = new Random();
+        this.player = board.getPhasingPlayer();
+
+        do {
+            this.column = rand.nextInt(3) + 1;
+            this.row = rand.nextInt(3) + 1;
+        } while (!board.isEmptySquare(column, row));
+
+        System.out.println("Making move level \"easy\"");
+
     }
 }
