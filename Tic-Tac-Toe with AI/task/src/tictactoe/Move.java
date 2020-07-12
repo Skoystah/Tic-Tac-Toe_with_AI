@@ -7,7 +7,7 @@ public class Move {
 
     private int column;
     private int row;
-    private char player;
+    private Player player;
 
     public int getColumn() {
         return column;
@@ -17,7 +17,7 @@ public class Move {
         return row;
     }
 
-    public char getPlayer() {
+    public Player getPlayer() {
         return player;
     }
 
@@ -27,12 +27,12 @@ public class Move {
         System.out.println("What's your next move sport?");
         String[] coordinates = ipt.nextLine().split(" ");
 
-        while (!validateCoordinates(coordinates, board)) {
+        while (!validCoordinates(coordinates, board)) {
             coordinates = ipt.nextLine().split(" ");
         }
     }
 
-    private boolean validateCoordinates(String[] coordinates, PlayingField board) {
+    private boolean validCoordinates(String[] coordinates, PlayingField board) {
         // Validate whether coordinates are numeric
         int coordinate;
         for (String c : coordinates) {
@@ -68,7 +68,7 @@ public class Move {
             this.row = rand.nextInt(3) + 1;
         } while (!board.isEmptySquare(column, row));
 
-        System.out.println("Making move level \"easy\"");
+        System.out.printf("Making move level \"%s\"%n", player.getDifficulty());
 
     }
 }
