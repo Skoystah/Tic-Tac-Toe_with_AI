@@ -4,17 +4,15 @@ public class PlayingField {
     private final Square[][] board;
     private final int size;
 
-    private int numberOfX = 0;
-    private int numberOfO = 0;
-    private Player phasingPlayer;
-
-    public Player getPhasingPlayer() {
-        return phasingPlayer;
-    }
-
-    public void setPhasingPlayer(Player player) {
-        this.phasingPlayer = player;
-    }
+//    private Player phasingPlayer;
+//
+//    public Player getPhasingPlayer() {
+//        return phasingPlayer;
+//    }
+//
+//    public void setPhasingPlayer(Player player) {
+//        this.phasingPlayer = player;
+//    }
 
     public int getSize() {
         return size;
@@ -30,7 +28,7 @@ public class PlayingField {
 
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                board[i][j] = new Square(column, row, ' ');
+                board[i][j] = new Square(column, row, PlayerSymbol.EMPTY);
                 symbol++;
                 column++;
             }
@@ -47,7 +45,7 @@ public class PlayingField {
         for (int i = 0; i < size; i++) {
             System.out.print("| ");
             for (int j = 0; j < size; j++) {
-                System.out.print(board[i][j].getSymbol() + " ");
+                System.out.print(board[i][j].getSymbol().PlayerSymbolName() + " ");
             }
             System.out.print("|\n");
         }
@@ -59,7 +57,7 @@ public class PlayingField {
         for (Square[] s : board) {
             for (Square s2 : s) {
                 if (s2.getColumn() == column && s2.getRow() == row) {
-                    return(s2.getSymbol() == ' ');
+                    return(s2.getSymbol() == PlayerSymbol.EMPTY);
                 }
             }
         }
@@ -69,7 +67,7 @@ public class PlayingField {
     private boolean isFullBoard() {
         for (Square[] s : board) {
             for (Square s2 : s) {
-                if (s2.getSymbol() == ' ') {
+                if (s2.getSymbol() == PlayerSymbol.EMPTY) {
                     return false;
                 }
             }
@@ -77,24 +75,38 @@ public class PlayingField {
         return true;
     }
 
-    public void registerMove(Move move) {
+    public boolean isValidHumanMove(Move move) {
+        if (move.getColumn() >= 1 && move.getColumn() <= this.size &&
+                move.getRow() >= 1 && move.getRow() <= this.size) {
+        } else {
+            System.out.printf("Coordinates should be from 1 to %d!", this.size);
+            return false;
+        }
+
+        if (!isEmptySquare(move.getColumn(), move.getRow())) {
+            System.out.println("This cell is occupied! Choose another one!");
+            return false;
+        }
+        return true;
+    }
+
+    public boolean isValidAIMove(Move move) {
+        if (isEmptySquare(move.getColumn(), move.getRow())) {
+            return true;
+        }
+        return false;
+    }
+
+    public void registerMove(Move move, Player player) {
         for (Square[] s : board) {
             for (Square s2 : s) {
                 if (s2.getColumn() == move.getColumn() && s2.getRow() == move.getRow()) {
-                    s2.setSymbol(move.getPlayer().getSymbol());
+                    s2.setSymbol(player.getSymbol());
                 }
             }
         }
 
-//        switchPhasingPlayer();
     }
-
-//    private void switchPhasingPlayer() {
-//        if (this.phasingPlayer == 'X')
-//            this.phasingPlayer = 'O';
-//        else
-//            this.phasingPlayer = 'X';
-//    }
 
     public void printState() {
         switch (determineState()) {
@@ -116,34 +128,34 @@ public class PlayingField {
     }
 
     private char determineState() {
-        // Temp -> to be refactored to support size > 3!
+        // TODO -> to be refactored to support size > 3!
         // Check column for win
         for (int i = 0; i < size; i++) {
             for (int j = 0; j + 2 < size; j++) {
-                if (board[i][j].getSymbol() > ' ' &&
+                if (board[i][j].getSymbol() != PlayerSymbol.EMPTY &&
                         board[i][j].getSymbol() == board[i][j + 1].getSymbol() &&
                         board[i][j].getSymbol() == board[i][j + 2].getSymbol()) {
-                    return (board[i][j].getSymbol());
+                    return (board[i][j].getSymbol().PlayerSymbolName());
                 }
             }
         }
         // Check row for win
         for (int j = 0; j < size; j++) {
             for (int i = 0; i + 2 < size; i++) {
-                if (board[i][j].getSymbol() > ' ' &&
+                if (board[i][j].getSymbol() != PlayerSymbol.EMPTY &&
                         board[i][j].getSymbol() == board[i+1][j].getSymbol() &&
                         board[i][j].getSymbol() == board[i+2][j].getSymbol()) {
-                    return (board[i][j].getSymbol());
+                    return (board[i][j].getSymbol().PlayerSymbolName());
                 }
             }
         }
         // Check diagonal top L -> bottom R for win
         for (int i = 0; i + 2 < size; i++) {
             for (int j = 0; j + 2 < size; j++) {
-                if (board[i][j].getSymbol() > ' ' &&
+                if (board[i][j].getSymbol() != PlayerSymbol.EMPTY &&
                         board[i][j].getSymbol() == board[i+1][j+1].getSymbol() &&
                         board[i][j].getSymbol() == board[i+2][j+2].getSymbol()) {
-                    return (board[i][j].getSymbol());
+                    return (board[i][j].getSymbol().PlayerSymbolName());
                 }
             }
         }
@@ -151,10 +163,10 @@ public class PlayingField {
         // Check diagonal bottom L -> top R for win
         for (int i = size - 1; i - 2 >= 0; i--) {
             for (int j = 0; j + 2 < size; j++) {
-                if (board[i][j].getSymbol() > ' ' &&
+                if (board[i][j].getSymbol() != PlayerSymbol.EMPTY &&
                         board[i][j].getSymbol() == board[i-1][j+1].getSymbol() &&
                         board[i][j].getSymbol() == board[i-2][j+2].getSymbol()) {
-                    return (board[i][j].getSymbol());
+                    return (board[i][j].getSymbol().PlayerSymbolName());
                 }
             }
         }

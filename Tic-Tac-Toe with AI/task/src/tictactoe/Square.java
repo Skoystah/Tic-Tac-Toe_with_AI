@@ -3,7 +3,7 @@ package tictactoe;
 public class Square {
     private final int column;
     private final int row;
-    private char symbol;
+    private PlayerSymbol symbol;
 
     public int getRow() {
         return row;
@@ -13,17 +13,17 @@ public class Square {
         return column;
     }
 
-    public void setSymbol(char symbol) {
+    public void setSymbol(PlayerSymbol symbol) {
         this.symbol = symbol;
     }
 
-    public char getSymbol() {
+    public PlayerSymbol getSymbol() {
         return symbol;
     }
 
-    public Square(int column, int row, char symbol) {
+    public Square(int column, int row, PlayerSymbol symbol) {
         this.row = row;
         this.column = column;
-        this.symbol = symbol == '_' ? ' ' : symbol;
+        this.symbol = symbol;
     }
 }

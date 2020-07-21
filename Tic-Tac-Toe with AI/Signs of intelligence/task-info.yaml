@@ -289,6 +289,15 @@ files:
         }
     }
   learner_created: false
+- name: src/tictactoe/HumanPlayer.java
+  visible: true
+  learner_created: true
+- name: src/tictactoe/PlayerSymbol.java
+  visible: true
+  learner_created: true
+- name: src/tictactoe/Player.java
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/projects/81/stages/450/implement
 status: Unchecked
 record: -1
