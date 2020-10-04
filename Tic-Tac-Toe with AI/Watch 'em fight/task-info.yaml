@@ -294,6 +294,22 @@ files:
         }
     }
   learner_created: false
+- name: src/tictactoe/Player.java
+  visible: true
+  learner_created: true
+- name: src/tictactoe/AIPlayer.java
+  visible: true
+  learner_created: true
+- name: src/tictactoe/Menu.java
+  visible: true
+  learner_created: true
+- name: src/tictactoe/Validator.java
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/projects/81/stages/449/implement
-status: Unchecked
+status: Solved
+feedback:
+  message: Congratulations! Continue on <a href="https://hyperskill.org/projects/81/stages/449/implement">JetBrains
+    Academy</a>
+  time: Sun, 12 Jul 2020 10:50:44 UTC
 record: -1
